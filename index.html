@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Padeltrain Premium</title>
+<style>
+
+  :root {
+    --primary: #079F92;
+    --primary-dark: #067F75;
+    --primary-light: #E6F7F5;
+    --accent: #BCD36F;
+    --gray: #54515A;
+    --bg-page: #F7F8F8;
+    --bg-surface: #FFFFFF;
+    --bg-muted: #F1F2F2;
+    --text-primary: #2E2C32;
+    --text-secondary: #54515A;
+    --text-muted: #908D95;
+    --border-light: #E6E7E7;
+    --border-medium: #D1D4D3;
+    --radius-sm: 6px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-xl: 24px;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg-page);
+    color: var(--text-primary);
+    font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    scroll-behavior: smooth;
+  }
+
+  section {
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 120px 40px;
+    position: relative;
+    border-bottom: 1px solid var(--border-light);
+  }
+
+  .surface { background: var(--bg-surface); }
+  .muted   { background: var(--bg-page); }
+  .dark    { background: var(--text-primary); color: #FFFFFF; }
+
+  .wrap {
+    width: 100%;
+    max-width: 1080px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--primary);
+    background: var(--primary-light);
+    padding: 8px 18px;
+    border-radius: 999px;
+    margin-bottom: 32px;
+  }
+
+  .dark .eyebrow {
+    background: rgba(255,255,255,0.08);
+    color: var(--accent);
+  }
+
+  h1 {
+    font-size: 96px;
+    line-height: 1.02;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    margin: 0 0 28px 0;
+  }
+
+  h2 {
+    font-size: 60px;
+    line-height: 1.08;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin: 0 0 24px 0;
+  }
+
+  h3 {
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin: 0 0 12px 0;
+  }
+
+  p.lead {
+    font-size: 26px;
+    line-height: 1.5;
+    color: var(--text-secondary);
+    font-weight: 400;
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  .dark p.lead { color: rgba(255,255,255,0.72); }
+
+  p.body-text {
+    font-size: 18px;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    margin: 0;
+  }
+
+  .accent-word { color: var(--primary); }
+  .dark .accent-word { color: var(--accent); }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 60px;
+    padding: 0 40px;
+    border-radius: var(--radius-md);
+    font-size: 18px;
+    font-weight: 600;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  .btn-primary {
+    background: var(--primary);
+    color: #FFFFFF;
+  }
+
+  .btn-primary:hover { background: var(--primary-dark); }
+
+  .btn-row {
+    margin-top: 44px;
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .btn-ghost-dark {
+    background: transparent;
+    color: #FFFFFF;
+    border: 1px solid rgba(255,255,255,0.28);
+  }
+
+  /* ---------- HERO ---------- */
+
+  #hero {
+    background: var(--bg-surface);
+    padding-top: 160px;
+  }
+
+  .hero-logo {
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 40px;
+  }
+
+  .hero-logo span { color: var(--primary); }
+
+  .hero-badge-row {
+    margin-top: 56px;
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .pill {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    background: var(--bg-muted);
+    border: 1px solid var(--border-light);
+    padding: 10px 20px;
+    border-radius: 999px;
+  }
+
+  /* ---------- PROBLEM (outside) ---------- */
+
+  .problem-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 64px;
+    text-align: left;
+  }
+
+  .problem-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    padding: 32px 28px;
+  }
+
+  .problem-mark {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-md);
+    background: #FEF2F2;
+    color: #D94A4A;
+    font-size: 20px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+
+  .problem-card p {
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--text-secondary);
+    margin: 0;
+  }
+
+  /* ---------- CONCEPT (inside) ---------- */
+
+  #concept {
+    background: var(--text-primary);
+    color: #FFFFFF;
+  }
+
+  .concept-ring {
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    border: 2px solid var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 40px auto;
+  }
+
+  .concept-ring-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
+  /* ---------- WHAT IS MEMBERSHIP ---------- */
+
+  .membership-row {
+    margin-top: 64px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    text-align: left;
+  }
+
+  .membership-item {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    padding: 32px 28px;
+  }
+
+  .membership-num {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--primary);
+    letter-spacing: 0.08em;
+    margin-bottom: 16px;
+  }
+
+  .membership-item p {
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--text-secondary);
+    margin: 0;
+  }
+
+  /* ---------- PT SUITE ---------- */
+
+  .suite-grid {
+    margin-top: 64px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .suite-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    padding: 40px 28px;
+    text-align: left;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .suite-card::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: var(--primary);
+  }
+
+  .suite-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: var(--radius-md);
+    background: var(--primary-light);
+    color: var(--primary-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    font-weight: 800;
+    margin-bottom: 24px;
+  }
+
+  .suite-card p {
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--text-secondary);
+    margin: 0;
+  }
+
+  .suite-tag {
+    display: inline-block;
+    margin-top: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--primary);
+  }
+
+  /* ---------- BENEFITS ---------- */
+
+  .benefits-grid {
+    margin-top: 64px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    text-align: left;
+  }
+
+  .benefit-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    padding: 26px 26px;
+  }
+
+  .benefit-check {
+    flex: 0 0 auto;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--primary);
+    color: #FFFFFF;
+    font-size: 16px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .benefit-row h3 { margin-bottom: 6px; font-size: 18px; }
+  .benefit-row p { font-size: 15px; color: var(--text-secondary); line-height: 1.5; margin: 0; }
+
+  /* ---------- POSITIONING (inside vs outside) ---------- */
+
+  .position-grid {
+    margin-top: 64px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    text-align: left;
+  }
+
+  .position-card {
+    border-radius: var(--radius-xl);
+    padding: 40px 36px;
+  }
+
+  .position-card.outside {
+    background: var(--bg-muted);
+    border: 1px solid var(--border-medium);
+  }
+
+  .position-card.inside {
+    background: var(--text-primary);
+    color: #FFFFFF;
+  }
+
+  .position-label {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    display: block;
+  }
+
+  .position-card.outside .position-label { color: var(--text-muted); }
+  .position-card.inside .position-label { color: var(--accent); }
+
+  .position-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .position-list li {
+    font-size: 16px;
+    line-height: 1.5;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border-light);
+    color: var(--text-secondary);
+  }
+
+  .position-card.inside .position-list li {
+    border-bottom: 1px solid rgba(255,255,255,0.12);
+    color: rgba(255,255,255,0.82);
+  }
+
+  .position-list li:last-child { border-bottom: none; }
+
+  /* ---------- PRICE ---------- */
+
+  .price-card {
+    margin-top: 56px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-xl);
+    padding: 64px 72px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    display: inline-block;
+  }
+
+  .price-value {
+    font-size: 108px;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: var(--text-primary);
+    line-height: 1;
+  }
+
+  .price-value sup {
+    font-size: 40px;
+    font-weight: 700;
+    vertical-align: super;
+    top: -0.5em;
+    position: relative;
+  }
+
+  .price-period {
+    font-size: 18px;
+    color: var(--text-muted);
+    font-weight: 600;
+    margin-top: 12px;
+  }
+
+  .price-divider {
+    width: 100%;
+    height: 1px;
+    background: var(--border-light);
+    margin: 32px 0;
+  }
+
+  .price-includes {
+    text-align: left;
+    display: inline-block;
+  }
+
+  .price-includes li {
+    font-size: 15px;
+    color: var(--text-secondary);
+    margin-bottom: 10px;
+    list-style: none;
+    padding-left: 26px;
+    position: relative;
+  }
+
+  .price-includes li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 6px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--primary);
+  }
+
+  /* ---------- FINAL CTA ---------- */
+
+  #final-cta {
+    background: var(--primary);
+    color: #FFFFFF;
+  }
+
+  #final-cta .eyebrow {
+    background: rgba(255,255,255,0.14);
+    color: #FFFFFF;
+  }
+
+  #final-cta p.lead { color: rgba(255,255,255,0.86); }
+
+  #final-cta .btn-primary {
+    background: #FFFFFF;
+    color: var(--primary-dark);
+  }
+
+  #final-cta .btn-primary:hover {
+    background: var(--primary-light);
+  }
+
+  .final-tagline {
+    margin-top: 40px;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.7);
+  }
+
+  /* ---------- RESPONSIVE (for narrower screenshots) ---------- */
+
+  @media (max-width: 900px) {
+    h1 { font-size: 56px; }
+    h2 { font-size: 38px; }
+    p.lead { font-size: 20px; }
+    .problem-grid,
+    .membership-row,
+    .suite-grid,
+    .benefits-grid,
+    .position-grid {
+      grid-template-columns: 1fr;
+    }
+    .price-card { padding: 48px 32px; }
+    .price-value { font-size: 72px; }
+    section { padding: 90px 24px; }
+  }
+
+</style>
+</head>
+<body>
+
+  <!-- 1. HERO -->
+  <section id="hero" class="surface">
+    <div class="wrap">
+      <div class="hero-logo">PADEL<span>TRAIN</span> PREMIUM</div>
+      <h1>Estás dentro,<br>o estás fuera.</h1>
+      <p class="lead">Con Padeltrain Premium accedes a todo:<br>PT Suite, ventajas y beneficios exclusivos.</p>
+      <div class="btn-row">
+        <a class="btn btn-primary" href="#price">Unirme a la Padeltrain Premium</a>
+      </div>
+      <div class="hero-badge-row">
+        <span class="pill">PT Suite incluida</span>
+        <span class="pill">Descuentos todo el año</span>
+        <span class="pill">Acceso prioritario</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. PROBLEM (outside) -->
+  <section id="problem" class="muted">
+    <div class="wrap">
+      <span class="eyebrow">El problema</span>
+      <h2>Fuera, todo cuesta<br>más y llega tarde.</h2>
+      <p class="lead">Sin Padeltrain Premium pagas precio completo, esperas turno y usas herramientas sueltas que no hablan entre sí.</p>
+      <div class="problem-grid">
+        <div class="problem-card">
+          <div class="problem-mark">×</div>
+          <h3>Sin acceso a la suite</h3>
+          <p>Manager, Data y Analytics se quedan fuera de tu alcance o solo disponibles a medias.</p>
+        </div>
+        <div class="problem-card">
+          <div class="problem-mark">×</div>
+          <h3>Precio completo, siempre</h3>
+          <p>Cada reserva, cada producto, cada servicio se paga a tarifa estándar. Sin ventajas, sin margen.</p>
+        </div>
+        <div class="problem-card">
+          <div class="problem-mark">×</div>
+          <h3>Última prioridad</h3>
+          <p>Novedades, plazas y beneficios llegan primero a quienes ya están dentro del ecosistema.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. CONCEPT (being inside) -->
+  <section id="concept">
+    <div class="wrap">
+      <div class="concept-ring"><div class="concept-ring-dot"></div></div>
+      <span class="eyebrow">El concepto</span>
+      <h2>Padeltrain no es una app.<br>Es un ecosistema.</h2>
+      <p class="lead">Suite, datos, formación, comunidad y ventajas conviven en un mismo sitio. La Padeltrain Premium es la llave que te deja entrar a todo a la vez.</p>
+    </div>
+  </section>
+
+  <!-- 4. WHAT IS MEMBERSHIP -->
+  <section id="what-is" class="surface">
+    <div class="wrap">
+      <span class="eyebrow">Qué es</span>
+      <h2>Un pase de acceso,<br>no un curso.</h2>
+      <p class="lead">La Padeltrain Premium no entrena por ti. Es la puerta de entrada a todo lo que necesitas para tomar mejores decisiones dentro y fuera de la pista.</p>
+      <div class="membership-row">
+        <div class="membership-item">
+          <div class="membership-num">01 — ACCESO</div>
+          <p>Un único pase anual que desbloquea todo el ecosistema Padeltrain, sin pagos sueltos por módulo.</p>
+        </div>
+        <div class="membership-item">
+          <div class="membership-num">02 — PERTENENCIA</div>
+          <p>Formas parte de una comunidad con estatus propio dentro de la plataforma, no de un listado de clientes.</p>
+        </div>
+        <div class="membership-item">
+          <div class="membership-num">03 — CONTINUIDAD</div>
+          <p>Tu Padeltrain Premium se renueva y crece contigo: nuevas herramientas, mismo acceso, sin fricción.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. PT SUITE ACCESS -->
+  <section id="suite" class="muted">
+    <div class="wrap">
+      <span class="eyebrow">PT Suite</span>
+      <h2>Toda la suite,<br>en una sola llave.</h2>
+      <p class="lead">Manager, Data y Analytics dejan de ser herramientas sueltas. Con la Padeltrain Premium, son parte de tu acceso.</p>
+      <div class="suite-grid">
+        <div class="suite-card">
+          <div class="suite-icon">M</div>
+          <h3>PT Manager</h3>
+          <p>Gestión centralizada de tu actividad dentro del ecosistema: partidos, alumnos, reservas y operativa diaria.</p>
+          <span class="suite-tag">Incluido</span>
+        </div>
+        <div class="suite-card">
+          <div class="suite-icon">D</div>
+          <h3>PT Data</h3>
+          <p>Tu información técnica y de juego centralizada, lista para consultarse cuando la necesites.</p>
+          <span class="suite-tag">Incluido</span>
+        </div>
+        <div class="suite-card">
+          <div class="suite-icon">A</div>
+          <h3>PT Analytics</h3>
+          <p>Lectura clara de tu evolución y rendimiento, sin hojas de cálculo ni herramientas externas.</p>
+          <span class="suite-tag">Incluido</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. BENEFITS -->
+  <section id="benefits" class="surface">
+    <div class="wrap">
+      <span class="eyebrow">Ventajas</span>
+      <h2>Estar dentro,<br>también sale a cuenta.</h2>
+      <p class="lead">Descuentos, prioridad y ofertas exclusivas reservadas para quienes ya son parte de la Padeltrain Premium.</p>
+      <div class="benefits-grid">
+        <div class="benefit-row">
+          <div class="benefit-check">%</div>
+          <div>
+            <h3>Descuentos permanentes</h3>
+            <p>Precios preferentes en productos y servicios del ecosistema durante todo el año.</p>
+          </div>
+        </div>
+        <div class="benefit-row">
+          <div class="benefit-check">↑</div>
+          <div>
+            <h3>Prioridad de acceso</h3>
+            <p>Primero en enterarte, primero en reservar, primero en probar cada novedad.</p>
+          </div>
+        </div>
+        <div class="benefit-row">
+          <div class="benefit-check">✓</div>
+          <div>
+            <h3>Ofertas exclusivas</h3>
+            <p>Promociones que solo existen para miembros, nunca visibles fuera de la Padeltrain Premium.</p>
+          </div>
+        </div>
+        <div class="benefit-row">
+          <div class="benefit-check">◆</div>
+          <div>
+            <h3>Beneficios que se acumulan</h3>
+            <p>Cada renovación suma ventajas nuevas: tu Padeltrain Premium mejora con el tiempo, no caduca en valor.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. POSITIONING (inside vs outside) -->
+  <section id="positioning" class="muted">
+    <div class="wrap">
+      <span class="eyebrow">La diferencia</span>
+      <h2>Dos formas de vivir<br>Padeltrain.</h2>
+      <div class="position-grid">
+        <div class="position-card outside">
+          <span class="position-label">Fuera</span>
+          <ul class="position-list">
+            <li>Precio completo en cada producto</li>
+            <li>Sin acceso a PT Suite</li>
+            <li>Última prioridad en novedades</li>
+            <li>Sin ofertas exclusivas</li>
+            <li>Relación puntual con el ecosistema</li>
+          </ul>
+        </div>
+        <div class="position-card inside">
+          <span class="position-label">Dentro</span>
+          <ul class="position-list">
+            <li>Descuentos todo el año</li>
+            <li>Manager, Data y Analytics incluidos</li>
+            <li>Acceso prioritario garantizado</li>
+            <li>Ofertas solo para miembros</li>
+            <li>Parte permanente del ecosistema</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. PRICE -->
+  <section id="price" class="surface">
+    <div class="wrap">
+      <span class="eyebrow">Padeltrain Premium anual</span>
+      <h2>Un precio.<br>Todo el ecosistema.</h2>
+      <div class="price-card">
+        <div class="price-value">60<sup>€</sup></div>
+        <div class="price-period">/ año</div>
+        <div class="price-divider"></div>
+        <ul class="price-includes">
+          <li>Acceso completo a PT Suite: Manager, Data y Analytics</li>
+          <li>Descuentos activos durante los 12 meses</li>
+          <li>Prioridad de acceso a novedades y plazas</li>
+          <li>Ofertas exclusivas para miembros</li>
+        </ul>
+      </div>
+      <div class="btn-row">
+        <a class="btn btn-primary" href="#final-cta">Quiero estar dentro</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. FINAL CTA -->
+  <section id="final-cta">
+    <div class="wrap">
+      <span class="eyebrow">Padeltrain Premium</span>
+      <h2>Deja de estar fuera.</h2>
+      <p class="lead">Por 60€ al año, entras al ecosistema completo: suite, datos, ventajas y comunidad. Una sola decisión, todo el acceso.</p>
+      <div class="btn-row">
+        <a class="btn btn-primary" href="#hero">Unirme ahora</a>
+      </div>
+      <div class="final-tagline">Padeltrain · Premium</div>
+    </div>
+  </section>
+
+</body>
+</html>
