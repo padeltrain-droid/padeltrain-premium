@@ -82,11 +82,12 @@
   }
 
   h1 {
-    font-size: 96px;
-    line-height: 1.02;
+    font-size: clamp(38px, 4.2vw, 68px);
+    line-height: 1.05;
     font-weight: 800;
-    letter-spacing: -0.03em;
+    letter-spacing: -0.02em;
     margin: 0 0 28px 0;
+    white-space: nowrap;
   }
 
   h2 {
@@ -194,6 +195,67 @@
     border: 1px solid var(--border-light);
     padding: 10px 20px;
     border-radius: 999px;
+  }
+
+  /* ---------- HERO LEAD FORM ---------- */
+
+  .lead-form {
+    margin: 40px auto 0 auto;
+    width: 100%;
+    max-width: 420px;
+    text-align: left;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    padding: 28px 28px 24px 28px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+
+  .form-row { margin-bottom: 16px; }
+
+  .form-row label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: 6px;
+  }
+
+  .form-row input {
+    width: 100%;
+    height: 40px;
+    padding: 0 12px;
+    border: 1px solid var(--border-medium);
+    border-radius: var(--radius-md);
+    font-size: 15px;
+    font-family: inherit;
+    color: var(--text-primary);
+    background: #FFFFFF;
+  }
+
+  .form-row input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--primary-light);
+  }
+
+  .lead-form-submit {
+    width: 100%;
+    height: 48px;
+    margin-top: 4px;
+    font-size: 16px;
+  }
+
+  .lead-form-success {
+    margin: 40px auto 0 auto;
+    max-width: 420px;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--primary-dark);
+    background: var(--primary-light);
+    border-radius: var(--radius-lg);
+    padding: 20px 24px;
+    text-align: center;
   }
 
   /* ---------- PROBLEM (outside) ---------- */
@@ -546,7 +608,7 @@
   /* ---------- RESPONSIVE (for narrower screenshots) ---------- */
 
   @media (max-width: 900px) {
-    h1 { font-size: 56px; }
+    h1 { font-size: 34px; white-space: normal; }
     h2 { font-size: 38px; }
     p.lead { font-size: 20px; }
     .problem-grid,
@@ -569,16 +631,35 @@
   <section id="hero" class="surface">
     <div class="wrap">
       <div class="hero-logo">PADEL<span>TRAIN</span> PREMIUM</div>
-      <h1>Estás dentro,<br>o estás fuera.</h1>
-      <p class="lead">Con Padeltrain Premium accedes a todo:<br>PT Suite, ventajas y beneficios exclusivos.</p>
+      <h1>Una forma diferente de vivir el pádel.</h1>
+      <p class="lead">Accede a la tecnología de Padeltrain, registra y analiza tu actividad y disfruta de ventajas exclusivas gracias a nuestra comunidad.</p>
       <div class="btn-row">
-        <a class="btn btn-primary" href="#price">Unirme a la Padeltrain Premium</a>
+        <button type="button" class="btn btn-primary" onclick="toggleLeadForm()">Unirme a Padeltrain Premium</button>
       </div>
       <div class="hero-badge-row">
         <span class="pill">PT Suite incluida</span>
         <span class="pill">Descuentos todo el año</span>
         <span class="pill">Acceso prioritario</span>
       </div>
+
+      <div id="hero-lead-form" class="lead-form" style="display:none;">
+        <form id="heroForm" onsubmit="return submitLeadForm(event)">
+          <div class="form-row">
+            <label for="hero-nombre">Nombre</label>
+            <input type="text" id="hero-nombre" name="nombre" required>
+          </div>
+          <div class="form-row">
+            <label for="hero-apellidos">Apellidos</label>
+            <input type="text" id="hero-apellidos" name="apellidos" required>
+          </div>
+          <div class="form-row">
+            <label for="hero-email">Email</label>
+            <input type="email" id="hero-email" name="email" required>
+          </div>
+          <button type="submit" class="btn btn-primary lead-form-submit">Enviar</button>
+        </form>
+      </div>
+      <p id="hero-lead-success" class="lead-form-success" style="display:none;">¡Gracias! Hemos recibido tus datos correctamente. Muy pronto nos pondremos en contacto contigo.</p>
     </div>
   </section>
 
@@ -756,7 +837,7 @@
         </ul>
       </div>
       <div class="btn-row">
-        <a class="btn btn-primary" href="#final-cta">Quiero estar dentro</a>
+        <a class="btn btn-primary" href="https://forms.gle/your-form-link" target="_blank" rel="noopener noreferrer">Quiero estar dentro</a>
       </div>
     </div>
   </section>
@@ -768,11 +849,29 @@
       <h2>Deja de estar fuera.</h2>
       <p class="lead">Por 60€ al año, entras al ecosistema completo: suite, datos, ventajas y comunidad. Una sola decisión, todo el acceso.</p>
       <div class="btn-row">
-        <a class="btn btn-primary" href="#hero">Unirme ahora</a>
+        <a class="btn btn-primary" href="https://forms.gle/your-form-link" target="_blank" rel="noopener noreferrer">Unirme ahora</a>
       </div>
       <div class="final-tagline">Padeltrain · Premium</div>
     </div>
   </section>
+
+  <script>
+    function toggleLeadForm() {
+      var form = document.getElementById('hero-lead-form');
+      var isHidden = form.style.display === 'none' || form.style.display === '';
+      form.style.display = isHidden ? 'block' : 'none';
+      if (isHidden) {
+        form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
+
+    function submitLeadForm(event) {
+      event.preventDefault();
+      document.getElementById('hero-lead-form').style.display = 'none';
+      document.getElementById('hero-lead-success').style.display = 'block';
+      return false;
+    }
+  </script>
 
 </body>
 </html>
