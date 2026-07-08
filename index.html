@@ -643,23 +643,38 @@
       </div>
 
       <div id="hero-lead-form" class="lead-form" style="display:none;">
-        <form id="heroForm" onsubmit="return submitLeadForm(event)">
+        <!--
+          Conexión con Google Forms (sin backend):
+          - action: URL formResponse del formulario real.
+          - Cada input usa name="entry.XXXXXXXXX", el ID de campo que asigna Google Forms.
+          - Sustituye YOUR_GOOGLE_FORM_ID y los tres entry.* por los valores reales
+            (ver templates/google-form-content.txt para el procedimiento exacto).
+        -->
+        <form
+          id="heroForm"
+          action="https://docs.google.com/forms/d/e/YOUR_GOOGLE_FORM_ID/formResponse"
+          method="POST"
+          target="hidden_iframe"
+          onsubmit="submitLeadForm()">
           <div class="form-row">
             <label for="hero-nombre">Nombre</label>
-            <input type="text" id="hero-nombre" name="nombre" required>
+            <input type="text" id="hero-nombre" name="entry.NOMBRE_ENTRY_ID" required>
           </div>
           <div class="form-row">
             <label for="hero-apellidos">Apellidos</label>
-            <input type="text" id="hero-apellidos" name="apellidos" required>
+            <input type="text" id="hero-apellidos" name="entry.APELLIDOS_ENTRY_ID" required>
           </div>
           <div class="form-row">
             <label for="hero-email">Email</label>
-            <input type="email" id="hero-email" name="email" required>
+            <input type="email" id="hero-email" name="entry.EMAIL_ENTRY_ID" required>
           </div>
           <button type="submit" class="btn btn-primary lead-form-submit">Enviar</button>
         </form>
       </div>
       <p id="hero-lead-success" class="lead-form-success" style="display:none;">¡Gracias! Hemos recibido tus datos correctamente. Muy pronto nos pondremos en contacto contigo.</p>
+
+      <!-- iframe oculto: recibe la respuesta del POST a Google Forms sin recargar ni navegar la página -->
+      <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="onHiddenFrameLoad()"></iframe>
     </div>
   </section>
 
@@ -837,7 +852,7 @@
         </ul>
       </div>
       <div class="btn-row">
-        <a class="btn btn-primary" href="https://forms.gle/your-form-link" target="_blank" rel="noopener noreferrer">Quiero estar dentro</a>
+        <a class="btn btn-primary" href="https://docs.google.com/forms/d/e/YOUR_GOOGLE_FORM_ID/viewform" target="_blank" rel="noopener noreferrer">Quiero estar dentro</a>
       </div>
     </div>
   </section>
@@ -849,13 +864,15 @@
       <h2>Deja de estar fuera.</h2>
       <p class="lead">Por 60€ al año, entras al ecosistema completo: suite, datos, ventajas y comunidad. Una sola decisión, todo el acceso.</p>
       <div class="btn-row">
-        <a class="btn btn-primary" href="https://forms.gle/your-form-link" target="_blank" rel="noopener noreferrer">Unirme ahora</a>
+        <a class="btn btn-primary" href="https://docs.google.com/forms/d/e/YOUR_GOOGLE_FORM_ID/viewform" target="_blank" rel="noopener noreferrer">Unirme ahora</a>
       </div>
       <div class="final-tagline">Padeltrain · Premium</div>
     </div>
   </section>
 
   <script>
+    var leadFormSubmitted = false;
+
     function toggleLeadForm() {
       var form = document.getElementById('hero-lead-form');
       var isHidden = form.style.display === 'none' || form.style.display === '';
@@ -865,11 +882,20 @@
       }
     }
 
-    function submitLeadForm(event) {
-      event.preventDefault();
+    // El <form> hace un POST real a Google Forms (target="hidden_iframe"),
+    // así que aquí no se bloquea el envío: solo marcamos que se ha enviado.
+    function submitLeadForm() {
+      leadFormSubmitted = true;
+    }
+
+    // Se dispara cuando el iframe oculto recibe la respuesta del POST a Google Forms.
+    // También se dispara una vez al cargar la página (iframe vacío), por eso se
+    // comprueba el flag leadFormSubmitted antes de mostrar el mensaje de éxito.
+    function onHiddenFrameLoad() {
+      if (!leadFormSubmitted) return;
+      leadFormSubmitted = false;
       document.getElementById('hero-lead-form').style.display = 'none';
       document.getElementById('hero-lead-success').style.display = 'block';
-      return false;
     }
   </script>
 
